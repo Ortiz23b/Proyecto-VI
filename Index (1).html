@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Colombia es Moda - Inventario</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:#f4f6f9;
+}
+
+.login{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#f4f6f9;
+}
+
+.login-box{
+  background:white;
+  padding:30px;
+  width:350px;
+  border-radius:8px;
+  box-shadow:0 2px 10px rgba(0,0,0,.2);
+}
+
+.login-box h2{
+  color:#0b5be7;
+}
+
+input, select, textarea{
+  width:100%;
+  padding:10px;
+  margin-top:8px;
+  margin-bottom:15px;
+  border:1px solid #ccc;
+  border-radius:5px;
+}
+
+button{
+  background:#0b5be7;
+  color:white;
+  border:none;
+  padding:10px;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#0847b8;
+}
+
+.app{
+  display:none;
+}
+
+.sidebar{
+  width:210px;
+  background:#111820;
+  color:white;
+  position:fixed;
+  top:0;
+  bottom:0;
+  padding-top:20px;
+}
+
+.sidebar h2{
+  text-align:center;
+  font-size:18px;
+  margin-bottom:30px;
+}
+
+.sidebar div{
+  padding:14px 20px;
+  cursor:pointer;
+}
+
+.sidebar div:hover{
+  background:#0b5be7;
+}
+
+.content{
+  margin-left:210px;
+  padding:30px;
+}
+
+.page{
+  display:none;
+}
+
+.active{
+  display:block;
+}
+
+.header{
+  margin-bottom:25px;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:25px;
+}
+
+.card{
+  background:white;
+  padding:20px;
+  border-radius:8px;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.card h3{
+  margin:0;
+  color:#555;
+}
+
+.card p{
+  font-size:28px;
+  margin-top:10px;
+  font-weight:bold;
+}
+
+.panel{
+  background:white;
+  padding:20px;
+  border-radius:8px;
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+  margin-bottom:20px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:white;
+}
+
+th,td{
+  padding:12px;
+  border-bottom:1px solid #ddd;
+  text-align:left;
+}
+
+th{
+  background:#f0f2f5;
+}
+
+.low{
+  color:red;
+  font-weight:bold;
+}
+
+.btn-small{
+  padding:6px 10px;
+  font-size:12px;
+  margin-right:5px;
+}
+
+.edit{
+  background:#f4a100;
+}
+
+.delete{
+  background:#e53935;
+}
+
+.form-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+
+.note{
+  background:#fff4d6;
+  border-left:5px solid #f4a100;
+  padding:12px;
+  margin-bottom:20px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div class="login" id="login">
+  <div class="login-box">
+    <h2>Colombia es Moda</h2>
+    <h3>Sistema de Inventario</h3>
+
+    <label>Usuario</label>
+    <input type="text" id="usuario" placeholder="admin">
+
+    <label>Contraseña</label>
+    <input type="password" id="password" placeholder="1234">
+
+    <button onclick="entrar()">Ingresar</button>
+
+    <p style="font-size:13px;color:#777;margin-top:15px;">
+      Usuario: admin | Contraseña: 1234
+    </p>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="app">
+
+  <div class="sidebar">
+    <h2>Colombia es Moda</h2>
+    <div onclick="mostrar('inicio')">Inicio</div>
+    <div onclick="mostrar('productos')">Productos</div>
+    <div onclick="mostrar('nuevo')">Nuevo Producto</div>
+    <div onclick="mostrar('entradas')">Entradas</div>
+    <div onclick="mostrar('salidas')">Salidas</div>
+    <div onclick="mostrar('reportes')">Reportes</div>
+  </div>
+
+  <div class="content">
+
+    <!-- INICIO -->
+    <div id="inicio" class="page active">
+      <div class="header">
+        <h1>Inicio</h1>
+        <p>Resumen general del inventario</p>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <h3>Total productos</h3>
+          <p id="totalProductos">6</p>
+        </div>
+
+        <div class="card">
+          <h3>Entradas</h3>
+          <p>12</p>
+        </div>
+
+        <div class="card">
+          <h3>Salidas</h3>
+          <p>8</p>
+        </div>
+
+        <div class="card">
+          <h3>Stock bajo</h3>
+          <p>4</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Productos con stock bajo</h2>
+        <table>
+          <tr>
+            <th>Producto</th>
+            <th>Categoría</th>
+            <th>Stock actual</th>
+            <th>Stock mínimo</th>
+          </tr>
+          <tr>
+            <td>Camiseta Básica Blanca</td>
+            <td>Camisetas</td>
+            <td class="low">3</td>
+            <td>5</td>
+          </tr>
+          <tr>
+            <td>Jean Clásico Azul</td>
+            <td>Pantalones</td>
+            <td class="low">2</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td>Gorra Negra</td>
+            <td>Accesorios</td>
+            <td class="low">1</td>
+            <td>3</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- PRODUCTOS -->
+    <div id="productos" class="page">
+      <div class="header">
+        <h1>Productos</h1>
+        <p>Listado de productos registrados</p>
+      </div>
+
+      <div class="panel">
+        <input type="text" placeholder="Buscar producto..." onkeyup="buscarProducto(this.value)">
+
+        <table id="tablaProductos">
+          <tr>
+            <th>ID</th>
+            <th>Producto</th>
+            <th>Categoría</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Acciones</th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Camiseta Básica Blanca</td>
+            <td>Camisetas</td>
+            <td>$25.000</td>
+            <td>3</td>
+            <td>
+              <button class="btn-small edit">Editar</button>
+              <button class="btn-small delete">Eliminar</button>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Jean Clásico Azul</td>
+            <td>Pantalones</td>
+            <td>$80.000</td>
+            <td>2</td>
+            <td>
+              <button class="btn-small edit">Editar</button>
+              <button class="btn-small delete">Eliminar</button>
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Gorra Negra</td>
+            <td>Accesorios</td>
+            <td>$20.000</td>
+            <td>1</td>
+            <td>
+              <button class="btn-small edit">Editar</button>
+              <button class="btn-small delete">Eliminar</button>
+            </td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Chaqueta Denim</td>
+            <td>Chaquetas</td>
+            <td>$120.000</td>
+            <td>2</td>
+            <td>
+              <button class="btn-small edit">Editar</button>
+              <button class="btn-small delete">Eliminar</button>
+            </td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Vestido Floral</td>
+            <td>Vestidos</td>
+            <td>$95.000</td>
+            <td>6</td>
+            <td>
+              <button class="btn-small edit">Editar</button>
+              <button class="btn-small delete">Eliminar</button>
+            </td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Buzo Gris</td>
+            <td>Buzos</td>
+            <td>$60.000</td>
+            <td>7</td>
+            <td>
+              <button class="btn-small edit">Editar</button>
+              <button class="btn-small delete">Eliminar</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- NUEVO PRODUCTO -->
+    <div id="nuevo" class="page">
+      <div class="header">
+        <h1>Nuevo Producto</h1>
+        <p>Formulario para registrar productos</p>
+      </div>
+
+      <div class="note">
+        Esta pantalla es parte del prototipo. Sirve para simular cómo se registrarían los productos.
+      </div>
+
+      <div class="panel">
+        <div class="form-row">
+          <div>
+            <label>Nombre del producto</label>
+            <input id="nombre" type="text" placeholder="Ej: Camiseta Negra">
+          </div>
+
+          <div>
+            <label>Categoría</label>
+            <select id="categoria">
+              <option>Camisetas</option>
+              <option>Pantalones</option>
+              <option>Accesorios</option>
+              <option>Chaquetas</option>
+              <option>Vestidos</option>
+              <option>Buzos</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div>
+            <label>Precio</label>
+            <input id="precio" type="number" placeholder="Ej: 25000">
+          </div>
+
+          <div>
+            <label>Stock inicial</label>
+            <input id="stock" type="number" placeholder="Ej: 10">
+          </div>
+        </div>
+
+        <label>Descripción</label>
+        <textarea placeholder="Descripción del producto"></textarea>
+
+        <button onclick="guardarProducto()">Guardar Producto</button>
+      </div>
+    </div>
+
+    <!-- ENTRADAS -->
+    <div id="entradas" class="page">
+      <h1>Entradas</h1>
+      <div class="panel">
+        <p>Aquí se registrarían las entradas de productos al inventario.</p>
+        <table>
+          <tr>
+            <th>Fecha</th>
+            <th>Producto</th>
+            <th>Cantidad</th>
+          </tr>
+          <tr>
+            <td>04/04/2026</td>
+            <td>Camiseta Básica Blanca</td>
+            <td>10</td>
+          </tr>
+          <tr>
+            <td>04/04/2026</td>
+            <td>Jean Clásico Azul</td>
+            <td>5</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- SALIDAS -->
+    <div id="salidas" class="page">
+      <h1>Salidas</h1>
+      <div class="panel">
+        <p>Aquí se registrarían las salidas de productos del inventario.</p>
+        <table>
+          <tr>
+            <th>Fecha</th>
+            <th>Producto</th>
+            <th>Cantidad</th>
+          </tr>
+          <tr>
+            <td>04/04/2026</td>
+            <td>Gorra Negra</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>04/04/2026</td>
+            <td>Vestido Floral</td>
+            <td>1</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- REPORTES -->
+    <div id="reportes" class="page">
+      <h1>Reportes</h1>
+      <div class="panel">
+        <p>En esta sección se podrían mostrar reportes del inventario.</p>
+        <ul>
+          <li>Reporte de productos registrados</li>
+          <li>Reporte de productos con stock bajo</li>
+          <li>Reporte de entradas y salidas</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function entrar(){
+  let user = document.getElementById("usuario").value;
+  let pass = document.getElementById("password").value;
+
+  if(user === "admin" && pass === "1234"){
+    document.getElementById("login").style.display = "none";
+    document.getElementById("app").style.display = "block";
+  }else{
+    alert("Usuario o contraseña incorrectos. Usa admin / 1234");
+  }
+}
+
+function mostrar(id){
+  let paginas = document.querySelectorAll(".page");
+  paginas.forEach(function(pagina){
+    pagina.classList.remove("active");
+  });
+
+  document.getElementById(id).classList.add("active");
+}
+
+function buscarProducto(texto){
+  texto = texto.toLowerCase();
+  let filas = document.querySelectorAll("#tablaProductos tr");
+
+  filas.forEach(function(fila, index){
+    if(index === 0) return;
+
+    if(fila.innerText.toLowerCase().includes(texto)){
+      fila.style.display = "";
+    }else{
+      fila.style.display = "none";
+    }
+  });
+}
+
+function guardarProducto(){
+  let nombre = document.getElementById("nombre").value;
+  let categoria = document.getElementById("categoria").value;
+  let precio = document.getElementById("precio").value;
+  let stock = document.getElementById("stock").value;
+
+  if(nombre === "" || precio === "" || stock === ""){
+    alert("Completa los campos principales");
+    return;
+  }
+
+  let tabla = document.getElementById("tablaProductos");
+  let cantidadFilas = tabla.rows.length;
+  let fila = tabla.insertRow();
+
+  fila.insertCell(0).innerText = cantidadFilas;
+  fila.insertCell(1).innerText = nombre;
+  fila.insertCell(2).innerText = categoria;
+  fila.insertCell(3).innerText = "$" + precio;
+  fila.insertCell(4).innerText = stock;
+  fila.insertCell(5).innerHTML =
+    '<button class="btn-small edit">Editar</button> <button class="btn-small delete">Eliminar</button>';
+
+  document.getElementById("totalProductos").innerText = cantidadFilas;
+
+  alert("Producto guardado en el prototipo");
+  mostrar("productos");
+}
+</script>
+
+</body>
+</html>
