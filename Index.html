@@ -4,182 +4,7 @@
 <meta charset="UTF-8">
 <title>Colombia es Moda - Inventario</title>
 
-<style>
-body{
-  margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:#f4f6f9;
-}
-
-.login{
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background:#f4f6f9;
-}
-
-.login-box{
-  background:white;
-  padding:30px;
-  width:350px;
-  border-radius:8px;
-  box-shadow:0 2px 10px rgba(0,0,0,.2);
-}
-
-.login-box h2{
-  color:#0b5be7;
-}
-
-input, select, textarea{
-  width:100%;
-  padding:10px;
-  margin-top:8px;
-  margin-bottom:15px;
-  border:1px solid #ccc;
-  border-radius:5px;
-}
-
-button{
-  background:#0b5be7;
-  color:white;
-  border:none;
-  padding:10px;
-  border-radius:5px;
-  cursor:pointer;
-}
-
-button:hover{
-  background:#0847b8;
-}
-
-.app{
-  display:none;
-}
-
-.sidebar{
-  width:210px;
-  background:#111820;
-  color:white;
-  position:fixed;
-  top:0;
-  bottom:0;
-  padding-top:20px;
-}
-
-.sidebar h2{
-  text-align:center;
-  font-size:18px;
-  margin-bottom:30px;
-}
-
-.sidebar div{
-  padding:14px 20px;
-  cursor:pointer;
-}
-
-.sidebar div:hover{
-  background:#0b5be7;
-}
-
-.content{
-  margin-left:210px;
-  padding:30px;
-}
-
-.page{
-  display:none;
-}
-
-.active{
-  display:block;
-}
-
-.header{
-  margin-bottom:25px;
-}
-
-.cards{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
-  margin-bottom:25px;
-}
-
-.card{
-  background:white;
-  padding:20px;
-  border-radius:8px;
-  box-shadow:0 2px 8px rgba(0,0,0,.1);
-}
-
-.card h3{
-  margin:0;
-  color:#555;
-}
-
-.card p{
-  font-size:28px;
-  margin-top:10px;
-  font-weight:bold;
-}
-
-.panel{
-  background:white;
-  padding:20px;
-  border-radius:8px;
-  box-shadow:0 2px 8px rgba(0,0,0,.1);
-  margin-bottom:20px;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  background:white;
-}
-
-th,td{
-  padding:12px;
-  border-bottom:1px solid #ddd;
-  text-align:left;
-}
-
-th{
-  background:#f0f2f5;
-}
-
-.low{
-  color:red;
-  font-weight:bold;
-}
-
-.btn-small{
-  padding:6px 10px;
-  font-size:12px;
-  margin-right:5px;
-}
-
-.edit{
-  background:#f4a100;
-}
-
-.delete{
-  background:#e53935;
-}
-
-.form-row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:15px;
-}
-
-.note{
-  background:#fff4d6;
-  border-left:5px solid #f4a100;
-  padding:12px;
-  margin-bottom:20px;
-}
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -187,20 +12,41 @@ th{
 <!-- LOGIN -->
 <div class="login" id="login">
   <div class="login-box">
-    <h2>Colombia es Moda</h2>
-    <h3>Sistema de Inventario</h3>
+    <div class="login-brand">
+      <div class="login-brand-copy">
+        <span class="login-badge">Proyecto academico</span>
+        <h1>Colombia es Moda</h1>
+        <p class="login-subtitle">Sistema de inventario para la gestion visual y operativa del negocio.</p>
+      </div>
 
-    <label>Usuario</label>
-    <input type="text" id="usuario" placeholder="admin">
+      <div class="login-logo-wrap">
+        <img class="login-logo" src="assets/logo.jpg" alt="Logo de Colombia es Moda">
+      </div>
 
-    <label>Contraseña</label>
-    <input type="password" id="password" placeholder="1234">
+      <div class="login-palette" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
 
-    <button onclick="entrar()">Ingresar</button>
+    <div class="login-form-panel">
+      <p class="login-eyebrow">Acceso al sistema</p>
+      <h2>Iniciar sesion</h2>
+      <p class="login-form-text">Ingresar con las credenciales de demostracion habilitadas para el prototipo academico.</p>
 
-    <p style="font-size:13px;color:#777;margin-top:15px;">
-      Usuario: admin | Contraseña: 1234
-    </p>
+      <label for="usuario">Usuario</label>
+      <input type="text" id="usuario" placeholder="admin">
+
+      <label for="password">Contrasena</label>
+      <input type="password" id="password" placeholder="1234">
+
+      <button id="loginButton">Ingresar</button>
+
+      <p class="login-hint">
+        Usuario: admin | Contrasena: 1234
+      </p>
+    </div>
   </div>
 </div>
 
@@ -209,12 +55,12 @@ th{
 
   <div class="sidebar">
     <h2>Colombia es Moda</h2>
-    <div onclick="mostrar('inicio')">Inicio</div>
-    <div onclick="mostrar('productos')">Productos</div>
-    <div onclick="mostrar('nuevo')">Nuevo Producto</div>
-    <div onclick="mostrar('entradas')">Entradas</div>
-    <div onclick="mostrar('salidas')">Salidas</div>
-    <div onclick="mostrar('reportes')">Reportes</div>
+    <div data-page="inicio">Inicio</div>
+    <div data-page="productos">Productos</div>
+    <div data-page="nuevo">Nuevo Producto</div>
+    <div data-page="entradas">Entradas</div>
+    <div data-page="salidas">Salidas</div>
+    <div data-page="reportes">Reportes</div>
   </div>
 
   <div class="content">
@@ -287,7 +133,7 @@ th{
       </div>
 
       <div class="panel">
-        <input type="text" placeholder="Buscar producto..." onkeyup="buscarProducto(this.value)">
+        <input type="text" id="busquedaProducto" placeholder="Buscar producto...">
 
         <table id="tablaProductos">
           <tr>
@@ -414,7 +260,7 @@ th{
         <label>Descripción</label>
         <textarea placeholder="Descripción del producto"></textarea>
 
-        <button onclick="guardarProducto()">Guardar Producto</button>
+        <button id="guardarProductoButton">Guardar Producto</button>
       </div>
     </div>
 
@@ -484,72 +330,7 @@ th{
   </div>
 </div>
 
-<script>
-function entrar(){
-  let user = document.getElementById("usuario").value;
-  let pass = document.getElementById("password").value;
-
-  if(user === "admin" && pass === "1234"){
-    document.getElementById("login").style.display = "none";
-    document.getElementById("app").style.display = "block";
-  }else{
-    alert("Usuario o contraseña incorrectos. Usa admin / 1234");
-  }
-}
-
-function mostrar(id){
-  let paginas = document.querySelectorAll(".page");
-  paginas.forEach(function(pagina){
-    pagina.classList.remove("active");
-  });
-
-  document.getElementById(id).classList.add("active");
-}
-
-function buscarProducto(texto){
-  texto = texto.toLowerCase();
-  let filas = document.querySelectorAll("#tablaProductos tr");
-
-  filas.forEach(function(fila, index){
-    if(index === 0) return;
-
-    if(fila.innerText.toLowerCase().includes(texto)){
-      fila.style.display = "";
-    }else{
-      fila.style.display = "none";
-    }
-  });
-}
-
-function guardarProducto(){
-  let nombre = document.getElementById("nombre").value;
-  let categoria = document.getElementById("categoria").value;
-  let precio = document.getElementById("precio").value;
-  let stock = document.getElementById("stock").value;
-
-  if(nombre === "" || precio === "" || stock === ""){
-    alert("Completa los campos principales");
-    return;
-  }
-
-  let tabla = document.getElementById("tablaProductos");
-  let cantidadFilas = tabla.rows.length;
-  let fila = tabla.insertRow();
-
-  fila.insertCell(0).innerText = cantidadFilas;
-  fila.insertCell(1).innerText = nombre;
-  fila.insertCell(2).innerText = categoria;
-  fila.insertCell(3).innerText = "$" + precio;
-  fila.insertCell(4).innerText = stock;
-  fila.insertCell(5).innerHTML =
-    '<button class="btn-small edit">Editar</button> <button class="btn-small delete">Eliminar</button>';
-
-  document.getElementById("totalProductos").innerText = cantidadFilas;
-
-  alert("Producto guardado en el prototipo");
-  mostrar("productos");
-}
-</script>
+<script src="app.js"></script>
 
 </body>
 </html>
